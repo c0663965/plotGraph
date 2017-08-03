@@ -1,0 +1,1268 @@
+
+// Fully written by Kihoon, Lee in 2017-08-01
+// 향후 추가될 사항 : 벡터X행렬,  Determinant, 선형회귀분석, 선형미방의 RK4수치적분,
+// 비중복난수발생, 중복원수 개수세기, 데이터  txt화일 (or 엑셀화일) 출력, 그래프 그리기 등등등등
+
+package javaapplication5;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+class MyMath {
+
+    MyMath() {
+    }
+
+    public static int[] reverse(int[] x) {
+
+        int temp;
+
+        for (int i = 0; i < x.length / 2; i++) {
+            temp = x[x.length - 1 - i];
+            x[x.length - 1 - i] = x[i];
+            x[i] = temp;
+        }
+
+        return x;
+    }
+
+    public static double[] reverse(double[] x) {
+
+        double temp;
+
+        for (int i = 0; i < x.length / 2; i++) {
+            temp = x[x.length - 1 - i];
+            x[x.length - 1 - i] = x[i];
+            x[i] = temp;
+        }
+
+        return x;
+    }
+
+    public static Integer[] reverse(Integer[] x) {
+
+        Integer temp;
+
+        for (int i = 0; i < x.length / 2; i++) {
+            temp = x[x.length - 1 - i];
+            x[x.length - 1 - i] = x[i];
+            x[i] = temp;
+        }
+
+        return x;
+    }
+
+    public static Double[] reverse(Double[] x) {
+
+        Double temp;
+
+        for (int i = 0; i < x.length / 2; i++) {
+            temp = x[x.length - 1 - i];
+            x[x.length - 1 - i] = x[i];
+            x[i] = temp;
+        }
+
+        return x;
+    }
+
+    public static String[] reverse(String[] x) {
+
+        String temp;
+
+        for (int i = 0; i < x.length / 2; i++) {
+            temp = x[x.length - 1 - i];
+            x[x.length - 1 - i] = x[i];
+            x[i] = temp;
+        }
+
+        return x;
+    }
+
+    public static int[][] plus(int[][] A, int[][] B) {
+
+        int r = A.length;
+        int c = A[0].length;
+
+        int[][] C = new int[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+
+        return C;
+    }
+
+    public static double[][] plus(double[][] A, double[][] B) {
+
+        int r = A.length;
+        int c = A[0].length;
+
+        double[][] C = new double[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+
+        return C;
+    }
+
+    public static int[] plus(int[] A, int[] B) {
+
+        int r = A.length;
+
+        int[] C = new int[r];
+
+        for (int i = 0; i < r; i++) {
+            C[i] = A[i] + B[i];
+        }
+
+        return C;
+    }
+
+    public static double[] plus(double[] A, double[] B) {
+
+        int r = A.length;
+
+        double[] C = new double[r];
+
+        for (int i = 0; i < r; i++) {
+            C[i] = A[i] + B[i];
+        }
+
+        return C;
+    }
+
+    public static int[][] minus(int[][] A, int[][] B) {
+
+        int r = A.length;
+        int c = A[0].length;
+
+        int[][] C = new int[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                C[i][j] = A[i][j] - B[i][j];
+            }
+        }
+
+        return C;
+    }
+
+    public static double[][] minus(double[][] A, double[][] B) {
+
+        int r = A.length;
+        int c = A[0].length;
+
+        double[][] C = new double[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                C[i][j] = A[i][j] - B[i][j];
+            }
+        }
+
+        return C;
+    }
+
+    public static int[] minus(int[] A, int[] B) {
+
+        int r = A.length;
+
+        int[] C = new int[r];
+
+        for (int i = 0; i < r; i++) {
+            C[i] = A[i] - B[i];
+        }
+
+        return C;
+    }
+
+    public static double[] minus(double[] A, double[] B) {
+
+        int r = A.length;
+
+        double[] C = new double[r];
+
+        for (int i = 0; i < r; i++) {
+            C[i] = A[i] - B[i];
+        }
+
+        return C;
+    }
+
+    public static int[][] multiply(int[][] A, int[][] B) {
+
+        int r = A.length;
+        int c = B[0].length;
+
+        int[][] C = new int[r][c];
+
+        for (int[] p : C) {
+            Arrays.fill(p, 0);
+        }
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                for (int k = 0; k < r; k++) {
+                    C[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+
+        return C;
+    }
+
+    public static double[][] multiply(double[][] A, double[][] B) {
+
+        int r = A.length;
+        int c = B[0].length;
+
+        double[][] C = new double[r][c];
+
+        for (double[] p : C) {
+            Arrays.fill(p, 0);
+        }
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                for (int k = 0; k < r; k++) {
+                    C[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+
+        return C;
+    }
+
+    public static int[] multiply(int[][] A, int[] x) {
+
+        int r = A.length;
+        int c = A[0].length;
+
+        int[] y = new int[r];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                y[i] += A[i][j] * x[j];
+            }
+        }
+
+        return y;
+    }
+
+    public static double[] multiply(double[][] A, double[] x) {
+
+        int r = A.length;
+        int c = A[0].length;
+
+        double[] y = new double[r];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                y[i] += A[i][j] * x[j];
+            }
+        }
+
+        return y;
+    }
+
+    public static int[][] multiply(int[] x, int[] y) {
+
+        int r = x.length;
+        int c = y.length;
+
+        int[][] Z = new int[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                Z[i][j] = x[i] * y[j];
+            }
+        }
+
+        return Z;
+    }
+
+    public static double[][] multiply(double[] x, double[] y) {
+
+        int r = x.length;
+        int c = y.length;
+
+        double[][] Z = new double[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                Z[i][j] = x[i] * y[j];
+            }
+        }
+
+        return Z;
+    }
+
+    public static int[] multiply(int k, int[] x) {
+
+        int r = x.length;
+
+        int[] kx = new int[r];
+
+        for (int i = 0; i < r; i++) {
+            kx[i] = k * x[i];
+        }
+
+        return kx;
+    }
+
+    public static double[] multiply(double k, double[] x) {
+
+        int r = x.length;
+
+        double[] kx = new double[r];
+
+        for (int i = 0; i < r; i++) {
+            kx[i] = k * x[i];
+        }
+
+        return kx;
+    }
+
+    public static Integer[] multiply(Integer k, Integer[] x) {
+
+        int r = x.length;
+
+        Integer[] kx = new Integer[r];
+
+        for (int i = 0; i < r; i++) {
+            kx[i] = k * x[i];
+        }
+
+        return kx;
+    }
+
+    public static Double[] multiply(Double k, Double[] x) {
+
+        int r = x.length;
+
+        Double[] kx = new Double[r];
+
+        for (int i = 0; i < r; i++) {
+            kx[i] = k * x[i];
+        }
+
+        return kx;
+    }
+
+    public static int[][] multiply(int k, int[][] A) {
+
+        for (int[] r : A) {
+            for (int j = 0; j < A[0].length; j++) {
+                r[j] = k * r[j];
+            }
+        }
+        return A;
+    }
+
+    public static double[][] multiply(double k, double[][] A) {
+
+        for (double[] r : A) {
+            for (int j = 0; j < A[0].length; j++) {
+                r[j] = k * r[j];
+            }
+        }
+        return A;
+    }
+
+    public static Integer[][] multiply(Integer k, Integer[][] A) {
+
+        for (Integer[] r : A) {
+            for (int j = 0; j < A[0].length; j++) {
+                r[j] = k * r[j];
+            }
+        }
+        return A;
+    }
+
+    public static Double[][] multiply(Double k, Double[][] A) {
+
+        for (Double[] r : A) {
+            for (int j = 0; j < A[0].length; j++) {
+                r[j] = k * r[j];
+            }
+        }
+        return A;
+    }
+
+    public static int product(int[] x, int[] y) {
+
+        int sum = 0;
+
+        for (int i = 0; i < x.length; i++) {
+            sum += x[i] * y[i];
+        }
+
+        return sum;
+    }
+
+    public static double product(double[] x, double[] y) {
+
+        double sum = 0;
+
+        for (int i = 0; i < x.length; i++) {
+            sum += x[i] * y[i];
+        }
+
+        return sum;
+    }
+
+    public static double[][] transpose(double[][] A) {
+        int r = A.length;
+        int c = A[0].length;
+
+        double[][] T = new double[c][r];
+
+        for (int i = 0; i < c; i++) {
+            for (int j = 0; j < r; j++) {
+                T[i][j] = A[j][i];
+            }
+        }
+
+        return T;
+    }
+
+    public static int[][] transpose(int[][] A) {
+        int r = A.length;
+        int c = A[0].length;
+
+        int[][] T = new int[c][r];
+
+        for (int i = 0; i < c; i++) {
+            for (int j = 0; j < r; j++) {
+                T[i][j] = A[j][i];
+            }
+        }
+
+        return T;
+    }
+
+    public static int sum(int[] arr) {
+        int sum = 0;
+
+        for (int e : arr) {
+            sum += e;
+        }
+
+        return sum;
+    }
+
+    public static double avg(int[] arr) {
+        return (double) sum(arr) / arr.length;
+    }
+
+    public static double sum(Integer[] arr) {
+        Integer sum = 0;
+
+        for (Integer e : arr) {
+            sum += e;
+        }
+
+        return sum;
+    }
+
+    public static double avg(Integer[] arr) {
+        return sum(arr) / arr.length;
+    }
+
+    public static double sum(double[] arr) {
+        double sum = 0;
+
+        for (double e : arr) {
+            sum += e;
+        }
+
+        return sum;
+    }
+
+    public static double avg(double[] arr) {
+        return (double) sum(arr) / arr.length;
+    }
+
+    public static Double sum(Double[] arr) {
+        double sum = 0.0;
+
+        for (Double e : arr) {
+            sum += e;
+        }
+
+        return sum;
+    }
+
+    public static double avg(Double[] arr) {
+        return (double) sum(arr) / arr.length;
+    }
+
+    public static int max(int[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[arr.length - 1];
+    }
+
+    public static Integer max(Integer[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[arr.length - 1];
+    }
+
+    public static double max(double[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[arr.length - 1];
+    }
+
+    public static Double max(Double[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[arr.length - 1];
+    }
+
+    public static int min(int[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[0];
+    }
+
+    public static Integer min(Integer[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[0];
+    }
+
+    public static double min(double[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[0];
+    }
+
+    public static Double min(Double[] arr) {
+
+        Arrays.sort(arr);
+
+        return arr[0];
+    }
+
+    public static int[][] newInt(int r, int c) {
+        int[][] A = new int[r][c];
+
+        for (int p[] : A) {
+            Arrays.fill(p, 0);
+        }
+
+        return A;
+    }
+
+    public static double[][] newDouble(int r, int c) {
+        double[][] A = new double[r][c];
+
+        for (double p[] : A) {
+            Arrays.fill(p, 0);
+        }
+
+        return A;
+    }
+
+    public static int[] newInt(int n) {
+        int[] A = new int[n];
+        Arrays.fill(A, 0);
+
+        return A;
+    }
+
+    public static double[] newDouble(int n) {
+        double[] A = new double[n];
+        Arrays.fill(A, 0.0);
+
+        return A;
+    }
+
+    public static Integer[] newInteger(int n) {
+        Integer[] A = new Integer[n];
+        Arrays.fill(A, 0);
+
+        return A;
+    }
+
+    public static Double[] newDOUBLE(int n) {
+        Double[] A = new Double[n];
+        Arrays.fill(A, 0.0);
+
+        return A;
+    }
+
+    public static void show(int[][] a) {
+        for (int[] r : a) {
+            System.out.println("");
+            for (int j = 0; j < r.length; j++) {
+                System.out.print(r[j] + "  \t");
+            }
+        }
+
+        System.out.println("");
+    }
+
+    public static void show(Integer[][] a) {
+        for (Integer[] r : a) {
+            System.out.println("");
+            for (Integer r1 : r) {
+                System.out.print(r1 + " ");
+            }
+        }
+
+        System.out.println("");
+    }
+
+    public static void show(double[][] a) {
+
+        NumberFormat formatter = new DecimalFormat("#0.00");
+
+        for (double[] r : a) {
+            System.out.println("");
+            for (int j = 0; j < r.length; j++) {
+                System.out.print(formatter.format(r[j]) + " ");
+            }
+        }
+
+        System.out.println("");
+    }
+
+    public static void show(Double[][] a) {
+
+        NumberFormat formatter = new DecimalFormat("#0.00");
+
+        for (Double[] r : a) {
+            System.out.println("");
+            for (Double r1 : r) {
+                System.out.print(formatter.format(r1) + " ");
+            }
+        }
+
+        System.out.println("");
+    }
+
+    public static void show(int[] m) {
+        System.out.println(Arrays.toString(m));
+    }
+
+    public static void show(Integer[] m) {
+       System.out.println(Arrays.toString(m));
+    }
+
+    public static void show(double[] m) {
+       System.out.println(Arrays.toString(m));
+    }
+
+    public static void show(Double[] m) {
+        System.out.println(Arrays.toString(m));
+    }
+
+    public static void show(List<List> a) {
+        for (int i = 0; i < a.size(); i++) {
+            System.out.println();
+            for (int j = 0; j < a.get(i).size(); j++) {
+                System.out.print(a.get(i).get(j) + "   \t");
+            }
+        }
+
+        System.out.println("");
+    }
+
+    public static int[] randInt(int r, int min, int max) {
+        int[] rn = newInt(r);
+
+        Random rd = new Random();
+
+        for (int i = 0; i < r; i++) {
+            rn[i] = rd.nextInt(max - min + 1) + min;
+        }
+
+        return rn;
+    }
+
+    public static double[] randDouble(int r, int min, int max) {
+        double[] rn = newDouble(r);
+
+        Random rd = new Random();
+
+        for (int i = 0; i < r; i++) {
+            rn[i] = rd.nextDouble() * (max - min) + min;
+        }
+
+        return rn;
+    }
+
+    public static double[][] randDouble(int r, int c) {
+
+        double[][] rn = newDouble(r, c);
+
+        Random rd = new Random();
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                rn[i][j] = rd.nextDouble();
+            }
+        }
+
+        return rn;
+    }
+
+    public static double[][] randDouble(int r, int c, int min, int max) {
+
+        double[][] rn = newDouble(r, c);
+
+        Random rd = new Random();
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                rn[i][j] = rd.nextDouble() * (max - min) + min;
+            }
+        }
+
+        return rn;
+    }
+
+    public static int[] numArr(int max) {  //max까지의 자연수를 무작위로 섞는다. 
+
+        int[] rn = newInt(max);
+
+        for (int i = 0; i < max; i++) {
+            rn[i] = i + 1;
+        }
+
+        return rn;
+    }
+    
+    public static int[] shuffle(int[] arr) { 
+
+        Random rd = new Random();
+
+        int max=arr.length;
+        
+        int n = 0;
+        int temp, index1, index2;
+
+        while (n++ < max) {
+            index1 = rd.nextInt(arr.length);
+            index2 = rd.nextInt(arr.length);
+
+            temp = arr[index1];
+            arr[index1] = arr[index2];
+            arr[index2] = temp;
+        }
+
+        return arr;
+    }
+    
+    public static double[] shuffle(double[] arr) { 
+
+        Random rd = new Random();
+
+        int max=arr.length;
+        
+        int n = 0;
+        int index1, index2;
+        double temp;
+        
+        while (n++ < max) {
+            index1 = rd.nextInt(arr.length);
+            index2 = rd.nextInt(arr.length);
+
+            temp = arr[index1];
+            arr[index1] = arr[index2];
+            arr[index2] = temp;
+        }
+
+        return arr;
+    }
+
+    public static Integer[] int2Integer(int[] arr) {
+
+        Integer[] r = new Integer[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            r[i] = arr[i];
+        }
+
+        return r;
+    }
+
+    public static int[] Integer2int(Integer[] arr) {
+
+        int[] r = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            r[i] = arr[i];
+        }
+
+        return r;
+    }
+
+    public static Double[] double2Double(double[] arr) {
+
+        Double[] r = new Double[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            r[i] = arr[i];
+        }
+
+        return r;
+    }
+
+    public static double[] Double2double(Double[] arr) {
+
+        double[] r = new double[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            r[i] = arr[i];
+        }
+
+        return r;
+    }
+
+    public static double[] linespan(double start, double finale, double step) {
+        List<Double> temp = new ArrayList();
+
+        int i = 0;
+
+        temp.add(start);
+
+        while (temp.get(i++) < finale) {
+            temp.add(start + i * step);
+        }
+
+        double[] t = newDouble(temp.size());
+
+        int j = 0;
+
+        for (Double r : temp) {
+            t[j++] = r;
+        }
+
+        return t;
+    }
+
+    public static double[][] inv(double[][] A) {
+
+        int row = A.length;
+        int col = 2 * row;
+        
+        double[][] T = new double[row][col];
+        double temp;
+
+        for (int i = 0; i < row; i++) {
+            System.arraycopy(A[i], 0, T[i], 0, row);
+
+            for (int j = row; j < col; j++) {
+                if (j == row + i) {
+                    T[i][j] = 1;
+                } else {
+                    T[i][j] = 0;
+                }
+            }
+        }
+        
+        /**
+         * ******************* Downward*************************
+         */
+        for (int k = 0; k < row - 1; k++) {
+            temp = T[k][k];
+            if (temp == 0) {
+                T = mix(T, k);
+                temp = T[k][k];
+            }
+            for (int j = 0; j < col; j++) {
+                T[k][j] = T[k][j] / temp;
+            }
+            for (int i = k + 1; i < row; i++) {
+                temp = T[i][k];
+                for (int j = 0; j < col; j++) {
+                    T[i][j] = -T[i][j] + T[k][j] * temp;
+                }
+            }
+        }
+        /**
+         * ******************* Upward****************************
+         */
+        for (int k = row - 1; k >= 0; k--) {
+            temp = T[k][k];
+
+            if (temp == 0) {
+                T = mix(T, k);
+                temp = T[k][k];
+            }
+
+            for (int j = 0; j < col; j++) {
+                T[k][j] = T[k][j] / temp;
+            }
+            for (int i = k - 1; i >= 0; i--) {
+                temp = T[i][k];
+                for (int j = 0; j < col; j++) {
+                    T[i][j] = -T[i][j] + T[k][j] * temp;
+                }
+            }
+        }
+
+        double[][] inv_A = new double[row][row];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < row; j++) {
+                inv_A[i][j] = T[i][j + row];
+            }
+        }
+
+        return inv_A;
+    }
+
+    private static double[][] mix(double a[][], int k){ //To avoid the case of a[k][k]==0
+   
+        int row = a.length;
+        int col = a[0].length;
+        
+        double temp = 0;
+
+        for (int j = 0; j < col; j++) {
+            for (int i = 0; i < row; i++) {
+                temp += a[i][j];
+            }
+            a[k][j] = temp;
+            temp = 0;
+        }
+        
+        return a;
+    }
+    
+    public static double det(double a[][]) {
+
+        double det;
+        det = 0;
+        if (a.length == 2) {
+            det = a[0][0] * a[1][1] - a[0][1] * a[1][0];
+        } else {
+            for (int j = 0; j < a.length; j++) {
+                det = det + a[0][j] * (double) Math.pow(-1, 0 + j) * det(cofactor(a, 0, j));
+            }
+        }   // Recursive calling of the functino Det.
+        return det;
+    }
+    
+    private static double[][] cofactor(double a[][], int i, int j) {
+
+        double temp1;
+
+        double[][] b = new double[a.length][a.length];
+
+        int n=0;
+        
+        for (double[] r:a)
+            b[n++] = Arrays.copyOf(r,a.length);
+
+        while (j > 0) {
+            for (int k = 0; k < a.length; k++) {
+                temp1 = b[k][j];
+                b[k][j] = b[k][j - 1];
+                b[k][j - 1] = temp1;
+            }
+
+            j--;
+        }
+        while (i > 0) {
+            for (int k = 0; k < a.length; k++) {
+                temp1 = b[i][k];
+                b[i][k] = b[i - 1][k];
+                b[i - 1][k] = temp1;
+            }
+            i--;
+        }
+
+        /* Construction of the new smaller confactor matrix */
+        double[][] cof = new double[a.length - 1][a.length - 1];
+
+        for (int p = 0; p < a.length - 1; p++) {
+            for (int q = 0; q < a.length - 1; q++) {
+                cof[p][q] = b[p + 1][q + 1];
+            }
+        }
+
+        return cof;
+    }
+    
+    public static int det(int a[][]) {
+
+        int det;
+        det = 0;
+        if (a.length == 2) {
+            det = a[0][0] * a[1][1] - a[0][1] * a[1][0];
+        } else {
+            for (int j = 0; j < a.length; j++) {
+                det = det + a[0][j] * (int)Math.pow(-1,j) * det(cofactor(a, 0, j));
+            }
+        }   // Recursive calling of the functino Det.
+        return det;
+    }
+    
+    private static int[][] cofactor(int a[][], int i, int j) {
+
+        int temp1;
+
+        int[][] b = new int[a.length][a.length];
+
+        int n=0;
+        
+        for (int[] r:a)
+            b[n++] = Arrays.copyOf(r,a.length);
+
+        while (j > 0) {
+            for (int k = 0; k < a.length; k++) {
+                temp1 = b[k][j];
+                b[k][j] = b[k][j - 1];
+                b[k][j - 1] = temp1;
+            }
+
+            j--;
+        }
+        while (i > 0) {
+            for (int k = 0; k < a.length; k++) {
+                temp1 = b[i][k];
+                b[i][k] = b[i - 1][k];
+                b[i - 1][k] = temp1;
+            }
+            i--;
+        }
+
+        /* Construction of the new smaller confactor matrix */
+        int[][] cof = new int[a.length - 1][a.length - 1];
+
+        for (int p = 0; p < a.length - 1; p++) {
+            for (int q = 0; q < a.length - 1; q++) {
+                cof[p][q] = b[p + 1][q + 1];
+            }
+        }
+
+        return cof;
+    }
+    
+    public static List<List<Double>> RungeKutta4(double[][] A, double[] x0, double t0, double tf, double dt ){
+        List<List<Double>> data = new ArrayList();
+        
+        double[] k = newDouble(x0.length);
+        double[] h = {0, dt/2.0, dt/2.0, dt};
+        double[] c = {dt/6.0, dt/3.0, dt/3.0, dt/6.0};
+        
+        double[] x = newDouble(x0.length);
+        double[] dx = newDouble(x0.length);
+        double[] temp = newDouble(1+x0.length); 
+        
+        System.arraycopy(x0, 0, temp, 1, x0.length);
+       
+        data.add(Arrays.asList(double2Double(temp)));
+        
+        while(t0<tf)
+        {    
+            for (int i = 0 ; i<4 ; i++)
+            {
+               x=plus(x0,multiply(h[i],k)); //dt*time 
+               
+               k=multiply(A,x);   //dt
+               
+               dx=plus(dx,multiply(c[i],k)); //dt*time         
+            }
+            
+            x0=plus(x0,dx);
+            
+            Arrays.fill(dx,0);
+            
+            t0+=dt;
+            
+            temp[0]=t0;
+            
+            System.arraycopy(x0, 0, temp, 1, x0.length);
+          
+            data.add(Arrays.asList(double2Double(temp)));
+        }
+        
+        return data;
+    }
+    
+    public static double[] merge(double[] a, double[] b) {
+        double[] c = new double[a.length + b.length];
+
+        Arrays.fill(c, 0);
+
+        System.arraycopy(a, 0, c, 0, a.length);
+        System.arraycopy(b, 0, c, a.length, b.length);
+
+        return c;
+    }
+    
+    public static int[] merge(int[] a, int[] b) {
+        int[] c = new int[a.length + b.length];
+
+        Arrays.fill(c, 0);
+
+        System.arraycopy(a, 0, c, 0, a.length);
+        System.arraycopy(b, 0, c, a.length, b.length);
+
+        return c;
+    }
+    
+    public static double[] merge(double a, double[] b) {
+        double[] c = newDouble(1+b.length);
+
+        c[0]=a;
+   
+        System.arraycopy(b, 0, c, 1, b.length);
+        
+        return c;
+    }
+    
+    public static int[] merge(int a, int[] b) {
+        int[] c = newInt(1+b.length);
+
+        c[0]=a;
+   
+        System.arraycopy(b, 0, c, 1, b.length);
+        
+        return c;
+    } 
+    
+    public static int[][] reshape(int[] v, int r){ //reshape(new int[]{1,2,3,4,5,6,7,8,9},3); 이런식으로 사용가능함
+        
+        int c=v.length/r;
+        
+        int[][] a = new int[r][c];
+        
+        for (int i=0;i<r;i++)
+            for (int j=0;j<c;j++)
+                a[i][j]=v[c*i+j];
+        
+        return a;
+    }
+    
+    public static double[][] reshape(double[] v, int r){
+        
+        int c=v.length/r;
+        
+        double[][] a = new double[r][c];
+        
+        for (int i=0;i<r;i++)
+            for (int j=0;j<c;j++)
+                a[i][j]=v[c*i+j];
+        
+        return a;
+    }
+    
+    public static int[][] reshape(int[][] arr, int r){
+       int size = arr.length*arr[0].length;
+       int[] v = new int[size];
+       
+       int i=0;
+       
+       for (int[] row : arr)
+           for (int col :row )
+               v[i++]=col;
+       
+       int c = size/r;
+       
+       int[][] a = new int[r][c];
+       
+       for (int j=0;j<r;j++)
+            for (int k=0;k<c;k++)
+                a[j][k]=v[c*j+k];
+       
+       return a;
+    }
+    
+    public static double[][] reshape(double[][] arr, int r){
+       int size = arr.length*arr[0].length;
+       double[] v = new double[size];
+       
+       int i=0;
+       
+       for (double[] row : arr)
+           for (double col :row )
+               v[i++]=col;
+       
+       int c = size/r;
+       
+       double[][] a = new double[r][c];
+       
+       for (int j=0;j<r;j++)
+            for (int k=0;k<c;k++)
+                a[j][k]=v[c*j+k];
+       
+       return a;
+    }
+    
+    public static void plot(List<Double> x, List<Double> y){ //jfreechart-1.0.19.jar and jcommon-1.023.jar
+            
+        final XYSeries data = new XYSeries("");
+
+        for (int i=0;i<x.size();i++)
+            data.add(x.get(i),y.get(i));
+
+        final XYSeriesCollection dataset = new XYSeriesCollection( );
+
+        dataset.addSeries(data);
+
+        JFreeChart plot = ChartFactory.createXYLineChart(
+            "", 
+            "",
+            "", 
+            dataset,
+            PlotOrientation.VERTICAL, 
+            false, false, false);
+
+        ChartFrame frame = new ChartFrame("Results",plot);
+        frame.pack();
+        frame.setVisible(true);
+    }
+    
+    public static void plot(List<List<Double>> data){
+        final XYSeriesCollection dataset = new XYSeriesCollection( );
+        
+        for(int i=1;i<data.get(0).size();i++){
+            final XYSeries temp= new XYSeries("Legend"+i);
+            for (List<Double> r : data)
+                temp.add(r.get(0),r.get(i));
+            dataset.addSeries(temp);
+        }
+        
+        JFreeChart plot = ChartFactory.createXYLineChart(
+            "Linear System Response", 
+            "time(s)",
+            "State", 
+            dataset,
+            PlotOrientation.VERTICAL, 
+            true, true, false);
+
+        ChartFrame frame = new ChartFrame("Results", plot);
+        frame.pack();
+        frame.setVisible(true);
+    }
+}
