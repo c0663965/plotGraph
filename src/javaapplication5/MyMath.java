@@ -88,62 +88,78 @@ class MyMath {
         return x;
     }
 
-    public static int[][] plus(int[][] A, int[][] B) {
+    public static int[][] plus(int[][]... args) {
 
-        int r = A.length;
-        int c = A[0].length;
+        int n = args.length;
 
-        int[][] C = new int[r][c];
+        int r = args[0].length;
+        int c = args[0][0].length;
 
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                C[i][j] = A[i][j] + B[i][j];
+        int[][] A = newInt(r,c);
+   
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < r; j++) {
+                for (int k = 0; k < c; k++) {
+                    A[j][k] += args[i][j][k];
+                }
             }
         }
 
-        return C;
+        return A;
     }
+    
+    public static double[][] plus(double[][]... args) {
 
-    public static double[][] plus(double[][] A, double[][] B) {
+        int n = args.length;
 
-        int r = A.length;
-        int c = A[0].length;
+        int r = args[0].length;
+        int c = args[0][0].length;
 
-        double[][] C = new double[r][c];
-
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                C[i][j] = A[i][j] + B[i][j];
+        double[][] A = newDouble(r,c);
+   
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < r; j++) {
+                for (int k = 0; k < c; k++) {
+                    A[j][k] += args[i][j][k];
+                }
             }
         }
 
-        return C;
+        return A;
     }
 
-    public static int[] plus(int[] A, int[] B) {
+    public static int[] plus(int[]... args) {
 
-        int r = A.length;
+        int r = args.length;
+        int c = args[0].length;
 
-        int[] C = new int[r];
+        int[] A = new int[args[0].length];
+        Arrays.fill(A, 0);
 
         for (int i = 0; i < r; i++) {
-            C[i] = A[i] + B[i];
+            for (int j = 0; j < c; j++) {
+                A[j] += args[i][j];
+            }
         }
 
-        return C;
+        return A;
     }
 
-    public static double[] plus(double[] A, double[] B) {
+    public static double[] plus(double[]... args) {
 
-        int r = A.length;
+        int r = args.length;
+        int c = args[0].length;
 
-        double[] C = new double[r];
+        double[] A = new double[args[0].length];
+        Arrays.fill(A, 0);
 
         for (int i = 0; i < r; i++) {
-            C[i] = A[i] + B[i];
+            for (int j = 0; j < c; j++) {
+                A[j] += args[i][j];
+            }
         }
 
-        return C;
+        return A;
     }
 
     public static int[][] minus(int[][] A, int[][] B) {
@@ -208,12 +224,7 @@ class MyMath {
 
         int r = A.length;
         int c = B[0].length;
-
-        int[][] C = new int[r][c];
-
-        for (int[] p : C) {
-            Arrays.fill(p, 0);
-        }
+        int[][] C = newInt(r,c);
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
@@ -230,12 +241,7 @@ class MyMath {
 
         int r = A.length;
         int c = B[0].length;
-
-        double[][] C = new double[r][c];
-
-        for (double[] p : C) {
-            Arrays.fill(p, 0);
-        }
+        double[][] C = newDouble(r,c);
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
@@ -254,7 +260,8 @@ class MyMath {
         int c = A[0].length;
 
         int[] y = new int[r];
-
+        Arrays.fill(y,0);
+        
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
                 y[i] += A[i][j] * x[j];
@@ -270,6 +277,7 @@ class MyMath {
         int c = A[0].length;
 
         double[] y = new double[r];
+        Arrays.fill(y,0);
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
@@ -469,21 +477,19 @@ class MyMath {
     public static double avg(int[] arr) {
         return (double) sum(arr) / arr.length;
     }
-
-    public static double sum(Integer[] arr) {
-        Integer sum = 0;
-
-        for (Integer e : arr) {
-            sum += e;
-        }
-
-        return sum;
+    
+    public static double stdev(int [] arr){
+        
+        int n=arr.length;
+        double average=avg(arr);
+            
+        double temp=0;
+        for (int i=0;i<n;i++)
+            temp+=Math.pow((arr[i]-average),2);
+        
+        return Math.sqrt(temp/n); 
     }
-
-    public static double avg(Integer[] arr) {
-        return sum(arr) / arr.length;
-    }
-
+ 
     public static double sum(double[] arr) {
         double sum = 0;
 
@@ -497,9 +503,47 @@ class MyMath {
     public static double avg(double[] arr) {
         return (double) sum(arr) / arr.length;
     }
+    
+    public static double stdev(double[] arr){
+        
+        int len=arr.length;
+        double average=avg(arr);
+            
+        double temp=0;
+        for (int i=0;i<len;i++)
+            temp+=Math.pow((arr[i]-average),2);
+        
+        return Math.sqrt(temp/len); 
+    }
+    
+    public static Integer sum(Integer[] arr) {
+        Integer sum = 0;
+
+        for (Integer e : arr) {
+            sum += e;
+        }
+
+        return sum;
+    }
+
+    public static Integer avg(Integer[] arr) {
+        return sum(arr) / arr.length;
+    }
+    
+    public static double stdev(Integer[] arr){
+        
+        int len=arr.length;
+        Integer average=avg(arr);
+            
+        double temp=0;
+        for (int i=0;i<len;i++)
+            temp+=Math.pow((arr[i]-average),2);
+        
+        return Math.sqrt(temp/len); 
+    }
 
     public static Double sum(Double[] arr) {
-        double sum = 0.0;
+        Double sum = 0.0;
 
         for (Double e : arr) {
             sum += e;
@@ -508,8 +552,20 @@ class MyMath {
         return sum;
     }
 
-    public static double avg(Double[] arr) {
-        return (double) sum(arr) / arr.length;
+    public static Double avg(Double[] arr) {
+        return sum(arr) / arr.length;
+    }
+    
+    public static Double stdev(Double[] arr){
+        
+        int len=arr.length;
+        Double average=avg(arr);
+            
+        Double temp=0.0;
+        for (int i=0;i<len;i++)
+            temp+=Math.pow((arr[i]-average),2);
+        
+        return Math.sqrt(temp/len); 
     }
 
     public static int max(int[] arr) {
@@ -747,7 +803,7 @@ class MyMath {
         return rn;
     }
 
-    public static int[] numArr(int max) {  //max까지의 자연수를 무작위로 섞는다. 
+    public static int[] naturalNumber(int max) {  //max까지의 자연수
 
         int[] rn = newInt(max);
 
@@ -1109,47 +1165,72 @@ class MyMath {
         return data;
     }
     
-    public static double[] merge(double[] a, double[] b) {
-        double[] c = new double[a.length + b.length];
-
-        Arrays.fill(c, 0);
-
-        System.arraycopy(a, 0, c, 0, a.length);
-        System.arraycopy(b, 0, c, a.length, b.length);
-
-        return c;
+    public static double[] concat(double[]...args) {
+        
+        int cnt = args.length;
+        int sum=0;
+        
+        for (int i=0;i<cnt;i++)
+            sum+=args[i].length;
+    
+        double[] v = newDouble(sum);
+        
+        for (int i=0,len=0;i<cnt;i++){
+            System.arraycopy(args[i],0,v,len,args[i].length);
+            len+=args[i].length;
+        }
+                    
+        return v;
     }
     
-    public static int[] merge(int[] a, int[] b) {
-        int[] c = new int[a.length + b.length];
-
-        Arrays.fill(c, 0);
-
-        System.arraycopy(a, 0, c, 0, a.length);
-        System.arraycopy(b, 0, c, a.length, b.length);
-
-        return c;
+    public static int[] concat(int[]...args) {
+        
+        int cnt = args.length;
+        int sum=0;
+        
+        for (int i=0;i<cnt;i++)
+            sum+=args[i].length;
+        
+        int[] v = newInt(sum);
+        
+        for (int i=0,len=0;i<cnt;i++){
+            System.arraycopy(args[i],0,v,len,args[i].length);
+            len+=args[i].length;
+        }
+                    
+        return v;
     }
     
-    public static double[] merge(double a, double[] b) {
-        double[] c = newDouble(1+b.length);
-
-        c[0]=a;
+    public static double[] concat(double n, double[] v) {
+        double[] w = newDouble(1+v.length);
+        w[0]=n;
+        System.arraycopy(v, 0, w, 1, v.length);
+        return w;
+    }
+    
+    public static double[] concat(double[] v, double n) {
+        double[] w = newDouble(v.length+1);
+        System.arraycopy(v, 0, w, 0, v.length);
+        w[w.length-1]=n;
    
-        System.arraycopy(b, 0, c, 1, b.length);
+        return w;
+    }
+    
+    public static int[] concat(int n, int[] v) {
+        int[] c = newInt(1+v.length);
+        c[0]=n;
+        System.arraycopy(v, 0, c, 1, v.length);
         
         return c;
     }
     
-    public static int[] merge(int a, int[] b) {
-        int[] c = newInt(1+b.length);
+    public static int[] concat(int[] v, int n) {
+        int[] w = new int[v.length+1];
+        System.arraycopy(v, 0, w, 0, v.length);
+        w[w.length-1]=n;
 
-        c[0]=a;
-   
-        System.arraycopy(b, 0, c, 1, b.length);
-        
-        return c;
-    } 
+        return w;
+    }
     
     public static int[][] reshape(int[] v, int r){ //reshape(new int[]{1,2,3,4,5,6,7,8,9},3); 이런식으로 사용가능함
         
@@ -1184,7 +1265,7 @@ class MyMath {
        int i=0;
        
        for (int[] row : arr)
-           for (int col :row )
+           for (int col :row)
                v[i++]=col;
        
        int c = size/r;
@@ -1205,7 +1286,7 @@ class MyMath {
        int i=0;
        
        for (double[] row : arr)
-           for (double col :row )
+           for (double col :row)
                v[i++]=col;
        
        int c = size/r;
@@ -1264,5 +1345,18 @@ class MyMath {
         ChartFrame frame = new ChartFrame("Results", plot);
         frame.pack();
         frame.setVisible(true);
+    }
+    
+    public static void plot(double[] x, double[] y){
+        List<Double> X= Arrays.asList(double2Double(x));
+        List<Double> Y= Arrays.asList(double2Double(y));
+        plot(X,Y);
+    }
+    
+    public static void plot(double[][] data){
+        List<List<Double>> temp = new ArrayList();
+        for (double r[]:data)
+            temp.add(Arrays.asList(double2Double(r)));
+       plot(temp);
     }
 }
