@@ -1,7 +1,6 @@
 
 // Fully written by Kihoon, Lee in 2017-08-01
-// 향후 추가될 사항 : 벡터X행렬,  Determinant, 선형회귀분석, 선형미방의 RK4수치적분,
-// 비중복난수발생, 중복원수 개수세기, 데이터  txt화일 (or 엑셀화일) 출력, 그래프 그리기 등등등등
+// 향후 추가될 사항 : 선형회귀분석, 비중복난수, 중복원수 개수카운팅, txt화일 입출력, 그래프 그리기 
 
 package javaapplication5;
 
@@ -220,32 +219,46 @@ class MyMath {
         return C;
     }
 
-    public static int[][] multiply(int[][] A, int[][] B) {
+     public static double[][] multiply(double[][]... args) { 
+        int len = args.length;
 
-        int r = A.length;
-        int c = B[0].length;
-        int[][] C = newInt(r,c);
-
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                for (int k = 0; k < r; k++) {
-                    C[i][j] += A[i][k] * B[k][j];
-                }
-            }
+        double[][][] temp = new double[len][][];
+        temp[len-1] = new double[args[len-1].length][args[len-1][0].length];
+        temp[len-1] = args[len-1];
+      
+        for (int i = len-1; i > 0; i--) {
+            temp[i-1] = new double[args[i - 1].length][args[i][0].length];
+            temp[i-1]=mul(args[i - 1], temp[i]);
         }
 
-        return C;
+        return temp[0]; 
     }
+     
+    public static int[][] multiply(int[][]... args) {
+        int len = args.length;
 
-    public static double[][] multiply(double[][] A, double[][] B) {
+        int[][][] temp = new int[len][][];
+        temp[len-1] = new int[args[len-1].length][args[len-1][0].length];
+        temp[len-1] = args[len-1];
+      
+        for (int i = len-1; i > 0; i--) {
+            temp[i-1] = new int[args[i - 1].length][args[i][0].length];
+            temp[i-1]=mul(args[i - 1], temp[i]);
+        }
+
+        return temp[0]; 
+    }
+        
+    private static double[][] mul(double[][] A, double[][] B) {
 
         int r = A.length;
         int c = B[0].length;
+        int u = B.length;
         double[][] C = newDouble(r,c);
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
-                for (int k = 0; k < r; k++) {
+                for (int k = 0; k < u; k++) {
                     C[i][j] += A[i][k] * B[k][j];
                 }
             }
@@ -253,7 +266,25 @@ class MyMath {
 
         return C;
     }
+    
+    private static int[][] mul(int[][] A, int[][] B) {
 
+        int r = A.length;
+        int c = B[0].length;
+        int u = B.length;
+        int[][] C = newInt(r,c);
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                for (int k = 0; k < u; k++) {
+                    C[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+
+        return C;
+    }
+ 
     public static int[] multiply(int[][] A, int[] x) {
 
         int r = A.length;
@@ -749,24 +780,48 @@ class MyMath {
         System.out.println("");
     }
 
-    public static int[] randInt(int r, int min, int max) {
-        int[] rn = newInt(r);
+    public static int[] randInt(int len) {
+        int[] arr = newInt(len);
 
         Random rd = new Random();
 
-        for (int i = 0; i < r; i++) {
+        for (int i = 0; i < len; i++) {
+            arr[i] = rd.nextInt();
+        }
+
+        return arr;
+    }
+    
+    public static double[] randDouble(int len) {
+        double[] arr = newDouble(len);
+
+        Random rd = new Random();
+
+        for (int i = 0; i < len; i++) {
+            arr[i] = rd.nextDouble();
+        }
+
+        return arr;
+    }
+    
+    public static int[] randInt(int len, int min, int max) {
+        int[] rn = newInt(len);
+
+        Random rd = new Random();
+
+        for (int i = 0; i < len; i++) {
             rn[i] = rd.nextInt(max - min + 1) + min;
         }
 
         return rn;
     }
 
-    public static double[] randDouble(int r, int min, int max) {
-        double[] rn = newDouble(r);
+    public static double[] randDouble(int len, int min, int max) {
+        double[] rn = newDouble(len);
 
         Random rd = new Random();
 
-        for (int i = 0; i < r; i++) {
+        for (int i = 0; i < len; i++) {
             rn[i] = rd.nextDouble() * (max - min) + min;
         }
 
@@ -775,43 +830,43 @@ class MyMath {
 
     public static double[][] randDouble(int r, int c) {
 
-        double[][] rn = newDouble(r, c);
+        double[][] mat = newDouble(r, c);
 
         Random rd = new Random();
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
-                rn[i][j] = rd.nextDouble();
+                mat [i][j] = rd.nextDouble();
             }
         }
 
-        return rn;
+        return mat ;
     }
 
     public static double[][] randDouble(int r, int c, int min, int max) {
 
-        double[][] rn = newDouble(r, c);
+        double[][] mat = newDouble(r, c);
 
         Random rd = new Random();
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
-                rn[i][j] = rd.nextDouble() * (max - min) + min;
+                mat[i][j] = rd.nextDouble() * (max - min) + min;
             }
         }
 
-        return rn;
+        return mat;
     }
 
     public static int[] naturalNumber(int max) {  //max까지의 자연수
 
-        int[] rn = newInt(max);
+        int[] arr = newInt(max);
 
         for (int i = 0; i < max; i++) {
-            rn[i] = i + 1;
+            arr[i] = i + 1;
         }
 
-        return rn;
+        return arr;
     }
     
     public static int[] shuffle(int[] arr) { 
@@ -1102,6 +1157,7 @@ class MyMath {
 
             j--;
         }
+        
         while (i > 0) {
             for (int k = 0; k < a.length; k++) {
                 temp1 = b[i][k];
@@ -1167,17 +1223,17 @@ class MyMath {
     
     public static double[] concat(double[]...args) {
         
-        int cnt = args.length;
+        int len = args.length;
         int sum=0;
         
-        for (int i=0;i<cnt;i++)
-            sum+=args[i].length;
+        for (double r[]:args)
+            sum+=r.length;
     
         double[] v = newDouble(sum);
         
-        for (int i=0,len=0;i<cnt;i++){
-            System.arraycopy(args[i],0,v,len,args[i].length);
-            len+=args[i].length;
+        for (int i=0,desPos=0;i<len;i++){
+            System.arraycopy(args[i],0,v,desPos,args[i].length);
+            desPos+=args[i].length;
         }
                     
         return v;
@@ -1185,17 +1241,17 @@ class MyMath {
     
     public static int[] concat(int[]...args) {
         
-        int cnt = args.length;
+        int len = args.length;
         int sum=0;
-        
-        for (int i=0;i<cnt;i++)
-            sum+=args[i].length;
+  
+        for (int r[]:args)
+            sum+=r.length;
         
         int[] v = newInt(sum);
         
-        for (int i=0,len=0;i<cnt;i++){
-            System.arraycopy(args[i],0,v,len,args[i].length);
-            len+=args[i].length;
+        for (int i=0,desPos=0;i<len;i++){
+            System.arraycopy(args[i],0,v,desPos,args[i].length);
+            desPos+=args[i].length;
         }
                     
         return v;
@@ -1232,9 +1288,18 @@ class MyMath {
         return w;
     }
     
-    public static int[][] reshape(int[] v, int r){ //reshape(new int[]{1,2,3,4,5,6,7,8,9},3); 이런식으로 사용가능함
+    public static int[][] reshape(int[] v, int...args){ //reshape(new int[]{1,2,3,4,5,6,7,8,9},3); 이런식으로도 사용가능함
         
-        int c=v.length/r;
+        int len=args.length;
+        int r,c;
+        
+        if (len==1){
+            r=args[0];
+            c=v.length/r;
+        }else{
+            r=args[0];
+            c=args[1];
+        }
         
         int[][] a = new int[r][c];
         
@@ -1245,9 +1310,18 @@ class MyMath {
         return a;
     }
     
-    public static double[][] reshape(double[] v, int r){
+    public static double[][] reshape(double[] v, int...args){
         
-        int c=v.length/r;
+        int len=args.length;
+        int r,c;
+        
+        if (len==1){
+            r=args[0];
+            c=v.length/r;
+        }else{
+            r=args[0];
+            c=args[1];
+        }
         
         double[][] a = new double[r][c];
         
@@ -1258,46 +1332,68 @@ class MyMath {
         return a;
     }
     
-    public static int[][] reshape(int[][] arr, int r){
-       int size = arr.length*arr[0].length;
-       int[] v = new int[size];
+    
+    
+    public static int[][] reshape(int[][] arr, int...args){
        
-       int i=0;
-       
-       for (int[] row : arr)
+        int len=args.length;
+        int r,c;
+        
+        if (len==1){
+            r=args[0];
+            c=arr.length*arr[0].length/r;
+        }else{
+            r=args[0];
+            c=args[1];
+        }
+    
+        int size = arr.length*arr[0].length;
+        int[] v = new int[size];
+
+        int i=0;
+
+        for (int[] row : arr)
            for (int col :row)
-               v[i++]=col;
-       
-       int c = size/r;
-       
-       int[][] a = new int[r][c];
-       
-       for (int j=0;j<r;j++)
+                v[i++]=col;
+
+        int[][] a = new int[r][c];
+
+        for (int j=0;j<r;j++)
             for (int k=0;k<c;k++)
                 a[j][k]=v[c*j+k];
-       
-       return a;
+
+        return a;
     }
     
-    public static double[][] reshape(double[][] arr, int r){
-       int size = arr.length*arr[0].length;
-       double[] v = new double[size];
-       
-       int i=0;
-       
-       for (double[] row : arr)
+    public static double[][] reshape(double[][] arr, int...args){
+        
+        int len=args.length;
+        int r,c;
+        
+        if (len==1){
+            r=args[0];
+            c=arr.length*arr[0].length/r;
+        }else{
+            r=args[0];
+            c=args[1];
+        }
+    
+        int size = arr.length*arr[0].length;
+        double[] v = new double[size];
+
+        int i=0;
+
+        for (double[] row : arr)
            for (double col :row)
-               v[i++]=col;
-       
-       int c = size/r;
-       
-       double[][] a = new double[r][c];
-       
-       for (int j=0;j<r;j++)
+                v[i++]=col;
+
+        double[][] a = new double[r][c];
+
+        for (int j=0;j<r;j++)
             for (int k=0;k<c;k++)
                 a[j][k]=v[c*j+k];
-       
-       return a;
+
+        return a;
     }
     
     public static void plot(List<Double> x, List<Double> y){ //jfreechart-1.0.19.jar and jcommon-1.023.jar
